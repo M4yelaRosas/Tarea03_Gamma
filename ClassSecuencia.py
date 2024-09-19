@@ -1,6 +1,6 @@
 # Programa: ClassSecuencia.py
-# Objetivo: Mostrar la implementación de la "interfaz" Conjuntable, para
-#           ilustrar la creación de un TAD de objetos.
+# Objetivo: Mostrar la implementacion de la "interfaz" Conjuntable, para
+#           ilustrar la creacion de un TAD de objetos.
 # Autores: Milena Rivera, Carlos Barrera, Isaac Garrido, Mayela Rosas
 # Version: 18-09-2024
 
@@ -26,7 +26,7 @@ class Secuencia(Ic.Conjuntable):
                 self.__nd = 0
                 print(f"Se creo una Secuencia para {params[0]} elementos!\n")
             except ValueError:
-                print("El tamaño del arreglo debe ser positivo!\n")
+                print("El tamanio del arreglo debe ser positivo!\n")
 
     @property
     def datos(self):
@@ -70,7 +70,7 @@ class Secuencia(Ic.Conjuntable):
 
     def eliminar(self, *params):
         """
-        Método que permite eliminar todas las repeticiones del elemento dentro
+        Metodo que permite eliminar todas las repeticiones del elemento dentro
         de la Secuencia, siempre que esto sea posible.
         :param params: Si solo recibe un parametro, este debera de ser el elemento a eliminar.
                         (en caso de estar repetido en la secuencia, este metodo eliminara el
@@ -126,7 +126,7 @@ class Secuencia(Ic.Conjuntable):
                             if aux == params[1]:
                                 break
                             else:# en teoria en la secuencia si hay que seguir buscando
-                        i += 1
+                                i += 1
                 except StopIteration:
                     pass
                 if not encontro:
@@ -135,57 +135,84 @@ class Secuencia(Ic.Conjuntable):
     # carlos
     def contiene(self, elemento: Em.Empleado) -> bool:
         """
-        Método que permite saber sí un elemento se encuentra contenido
+        Metodo que permite saber si� un elemento se encuentra contenido
         dentro de la Secuencia.
         :param elemento: El elemento a buscar
-        :return: True si lo encontró, False en otro caso
+        :return: True si lo encontro, False en otro caso
         :rtype: bool
         """
-        pass
+        if not self.esta_vacia():
+            try:
+                it1 = iter(self)
+                while True:
+                    empleado = next(it1)
+                    if empleado == elemento:
+                        return True
+            except StopIteration:
+                pass
+        return False        
 
     def repeticiones(self, elemento: Em.Empleado) -> int:
         """
-        Método que determina el número de repeticiones que el elemento
+        Metodo que determina el numero de repeticiones que el elemento
         presenta dentro de la Secuencia.
         :param elemento: El elemento a determinar las repeticiones
-        :return: El número de veces que aparece en la Secuencia
+        :return: El numero de veces que aparece en la Secuencia
         :rtype: int
         """
-        pass
+        contador = 0
+        if not self.esta_vacia() and self.contiene(elemento):
+            it1 = iter(self)
+            try:
+                while True:
+                    empleado = next(it1)
+                    if elemento == empleado:
+                        contador +=1
+            except StopIteration:
+                pass
+        return contador
 
     def esta_vacia(self) -> bool:
         """
-        Método que permite saber sí la Secuencia está vacía.
-        :return: True sí está vacía, False en otro caso.
+        Metodo que permite saber si� la Secuencia esta vaci�a.
+        :return: True si esta vaci�a, False en otro caso.
         :rtype: bool
         """
-        pass
+        return self.__nd == 0
 
     def cardinalidad(self) -> int:
         """
-        Método que permite conocer la cardinalidad de la Secuencia.
+        Metodo que permite conocer la cardinalidad de la Secuencia.
         :return: La cantidad de elementos almacenados en la Secuencia
         :rtype: int
         """
-        pass
+        return self.secuencia_unico().__nd
 
     def vaciar(self):
         """
-        Método que permite vaciar la Secuencia de elementos.
+        Metodo que permite vaciar la Secuencia de elementos.
         """
-        pass
+        self.__nd = 0
 
     def secuencia_unico(self):
         """
-        Método que permite devuelve la Secuencia de elementos únicos
+        Metodo que permite devuelve la Secuencia de elementos unicos
         (sin repeticiones).
         :return: La Secuencia sin repetidos
         """
-        pass
+        copia = Secuencia(len[self.__datos])
+        it1 = iter(self)
+        try:
+            while True:
+                elemento = next(it1)
+                if not copia.contiene(elemento):
+                    copia.agregar(elemento)
+        except StopIteration:
+            return copia
 
     def ordenar(self):
         """
-        Método que permite devuelve la Secuencia de elementos ordenada.
+        Metodo que permite devuelve la Secuencia de elementos ordenada.
         Utiliza Quick Sort o Merge Sort y habilita la existencia de dos comparadores
         por ejemplo, en el caso de los Empleados, se pueden ordenar por edad, por
         salario, por edad y nombre, salario y nombre, etc.
@@ -254,3 +281,4 @@ class Secuencia(Ic.Conjuntable):
             return a
         else:
             raise StopIteration
+        
