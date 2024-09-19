@@ -3,12 +3,12 @@
 # Autor: Gerardo
 # Fecha: 19-07-2024
 
-import Persona as p
+import Persona as Pe
 from datetime import date, datetime
 from locale import currency, setlocale, LC_MONETARY
 
 
-class Empleado(p.Persona):
+class Empleado(Pe.Persona):
     def __init__(self, nombre: str, apellidos: str, nacimiento: date, email: str, num_emp: int, salario: float):
         """
         Constructor para un Empleado, además de los datos de una Persona, recibe el número de empleado
@@ -115,7 +115,7 @@ class Empleado(p.Persona):
         """
         Este método se utiliza para dos Empleados y determinar
         el primero es "mayor" que el segundo.
-        :param otra: El Empleado con la que se va a realizar la comparación
+        :param otro: El Empleado con la que se va a realizar la comparación
         :return: True si el empleado actual es mayor que otro, False en caso contrario
         :rtype: bool
         """
@@ -123,6 +123,8 @@ class Empleado(p.Persona):
             return self.edad() > otro.edad()
 
 # Probar la clase Empleado
+
+
 if __name__ == "__main__":
     # Utilizando el constructor por parámetros
     nombre = input("Escribe el nombre: ")

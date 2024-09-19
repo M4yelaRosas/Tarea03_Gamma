@@ -4,40 +4,39 @@
 # Version: 18-09-2024
 
 
-import ConjuntoEmpleado as c
-import Empleado as e
+import ClassSecuencia as Cs
+import Empleado as Em
 from datetime import datetime
 import csv
 
 
-
-def leer_archivo(archivo: str) -> c.Conjunto:
+def leer_archivo(archivo: str) -> Cs.Secuencia:
     """
-    Método para leer un archivo y construir un conjunto con dichos datos
+    Metodo para leer un archivo y construir una secuencia con dichos datos
     :param archivo: El nombre del archivo que se va a leer
-    :return: Un Conjunto con los datos leídos
+    :return: Una Secuencia con los datos leidos
     """
-    conjunto = None
+    secuencia = None
     existe = False  # El archivo no existe
     while not existe:
         try:
             with open(archivo, encoding="UTF8", newline="") as file:
                 lector = csv.reader(file)
-                size = sum(1 for row in lector)  # Saber el número de líneas
-                conjunto = c.Conjunto(size)  # Creamos el Conjunto de tamaño ad-hoc
+                size = sum(1 for _ in lector)  # Saber el numero de lineas
+                secuencia = Cs.Secuencia(size)  # Creamos el Conjunto de tamanio ad-hoc
             with open(archivo, encoding="UTF8", newline="") as file:
                 lector = csv.reader(file)
                 lector.__next__()  # Salta la primera línea
                 for fila in lector:
-                    conjunto.agregar(e.Empleado(fila[1],  # Nombre
-                                                fila[2],  # Apellidos
-                                                datetime.strptime(fila[3], "%d/%m/%Y").date(),  # Nacimiento
-                                                fila[4],  # Correo
-                                                int(fila[0]),  # Número Empleado
-                                                float(fila[5])))  # Salario
+                    secuencia.agregar(Em.Empleado(fila[1],  # Nombre
+                                                  fila[2],  # Apellidos
+                                                  datetime.strptime(fila[3], "%d/%m/%Y").date(),  # Nacimiento
+                                                  fila[4],  # Correo
+                                                  int(fila[0]),  # Numero Empleado
+                                                  float(fila[5])))  # Salario
                 existe = True
-                print(f"El archivo {archivo} se leyó exitosamente!\n")
+                print(f"El archivo {archivo} se leyo exitosamente!\n")
         except FileNotFoundError:
             print("El archivo no existe!\n")
             archivo = input("Escribe el nombre del archivo CSV: ")
-    return conjunto
+    return secuencia
