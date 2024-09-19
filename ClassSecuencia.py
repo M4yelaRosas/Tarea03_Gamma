@@ -48,8 +48,7 @@ class Secuencia(Ic.Conjuntable):
 
     def agregar(self, *params):
         """
-        Metodo para agregar un elemento a la Secuencia, siempre
-        que sea posible.
+        Metodo para agregar un elemento a la Secuencia, siempre que sea posible.
         :param params: Si solo recibe un parametro, este debera de ser el elemento a agregar
                        Si recibe dos parametros, estos seran el elemento a agregar y el numero
                        de veces que se desea agregar.
@@ -70,8 +69,8 @@ class Secuencia(Ic.Conjuntable):
 
     def eliminar(self, *params):
         """
-        Método que permite eliminar todas las repeticiones del elemento dentro
-        de la Secuencia, siempre que esto sea posible.
+        Metodo que permite eliminar todas las repeticiones del elemento dentro de la Secuencia,
+        siempre que esto sea posible.
         :param params: Si solo recibe un parametro, este debera de ser el elemento a eliminar.
                         (en caso de estar repetido en la secuencia, este metodo eliminara el
                         primero que se encuentre)
@@ -97,7 +96,8 @@ class Secuencia(Ic.Conjuntable):
                                 self.__datos[i] = self.__datos[self.__nd]
                             print(f"El elemento {params[0]} fue eliminado!\n")
                             encontro = True
-                            break # elimino el primero que encuentro
+                            # elimino el primero que encuentro
+                            break
                         i += 1
                 except StopIteration:
                     pass
@@ -107,7 +107,8 @@ class Secuencia(Ic.Conjuntable):
         elif len(params) == 2:
             # Hay que asegurarnos que el arreglo no este vacio y el elemento exista
             if not self.esta_vacia() and self.contiene(params[0]):
-                aux = 0 # me ayudara a contar cuantos llevo eliminados
+                # me ayudara a contar cuantos llevo eliminados
+                aux = 0
                 encontro = False
                 it1 = iter(self)
                 i = 0
@@ -125,7 +126,7 @@ class Secuencia(Ic.Conjuntable):
                             aux += 1
                             if aux == params[1]:
                                 break
-                            else:# en teoria en la secuencia si hay que seguir buscando
+                        # en teoria en la secuencia si hay que seguir buscando
                         i += 1
                 except StopIteration:
                     pass
@@ -135,57 +136,84 @@ class Secuencia(Ic.Conjuntable):
     # carlos
     def contiene(self, elemento: Em.Empleado) -> bool:
         """
-        Método que permite saber sí un elemento se encuentra contenido
+        Metodo que permite saber si un elemento se encuentra contenido
         dentro de la Secuencia.
         :param elemento: El elemento a buscar
-        :return: True si lo encontró, False en otro caso
+        :return: True si lo encontro, False en otro caso
         :rtype: bool
         """
-        pass
+        if not self.esta_vacia():
+            try:
+                it1 = iter(self)
+                while True:
+                    empleado = next(it1)
+                    if empleado == elemento:
+                        return True
+            except StopIteration:
+                pass
+        return False
 
     def repeticiones(self, elemento: Em.Empleado) -> int:
         """
-        Método que determina el número de repeticiones que el elemento
+        Metodo que determina el numero de repeticiones que el elemento
         presenta dentro de la Secuencia.
         :param elemento: El elemento a determinar las repeticiones
-        :return: El número de veces que aparece en la Secuencia
+        :return: El numero de veces que aparece en la Secuencia
         :rtype: int
         """
-        pass
+        contador = 0
+        if not self.esta_vacia() and self.contiene(elemento):
+            it1 = iter(self)
+            try:
+                while True:
+                    empleado = next(it1)
+                    if elemento == empleado:
+                        contador += 1
+            except StopIteration:
+                pass
+        return contador
 
     def esta_vacia(self) -> bool:
         """
-        Método que permite saber sí la Secuencia está vacía.
-        :return: True sí está vacía, False en otro caso.
+        Metodo que permite saber sí la Secuencia esta vacia.
+        :return: True si esta vacia, False en otro caso.
         :rtype: bool
         """
-        pass
+        return self.__nd == 0
 
     def cardinalidad(self) -> int:
         """
-        Método que permite conocer la cardinalidad de la Secuencia.
+        Metodo que permite conocer la cardinalidad de la Secuencia.
         :return: La cantidad de elementos almacenados en la Secuencia
         :rtype: int
         """
-        pass
+        return self.__nd
 
     def vaciar(self):
         """
-        Método que permite vaciar la Secuencia de elementos.
+        Metodo que permite vaciar la Secuencia de elementos.
         """
-        pass
+        self.__nd = 0
 
     def secuencia_unico(self):
         """
-        Método que permite devuelve la Secuencia de elementos únicos
+        Metodo que permite devuelve la Secuencia de elementos unicos
         (sin repeticiones).
         :return: La Secuencia sin repetidos
         """
-        pass
+        copia = Secuencia(len(self.__datos))
+        it1 = iter(self)
+        try:
+            while True:
+                elemento = next(it1)
+                if not copia.contiene(elemento):
+                    copia.agregar(elemento)
+        except StopIteration:
+            return copia
 
     def ordenar(self):
         """
-        Método que permite devuelve la Secuencia de elementos ordenada.
+        Metodo que permite devuelve la Secuencia de elementos ordenada.
         Utiliza Quick Sort o Merge Sort y habilita la existencia de dos comparadores
         por ejemplo, en el caso de los Empleados, se pueden ordenar por edad, por
         salario, por edad y nombre, salario y nombre, etc.
