@@ -20,7 +20,7 @@ class Conjuntable(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def agregar2(self, elemento: T, nveces: int):
+    def agregar(self, elemento: T, nveces: int):
         """
         Método que permite agregar un elemento a la Secuencia, el número de
         veces indicado, siempreque sea posible.
@@ -39,7 +39,7 @@ class Conjuntable(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def eliminar2(self, elemento: T, nrep: int):
+    def eliminar(self, elemento: T, nrep: int):
         """
         Método que permite eliminar el número de repeticiones del elemento dentro
         de la Secuencia, indicadas por nrep, siempre que esto sea posible.
