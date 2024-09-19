@@ -72,9 +72,13 @@ class Secuencia(Ic.Conjuntable):
         """
         Método que permite eliminar todas las repeticiones del elemento dentro
         de la Secuencia, siempre que esto sea posible.
-        :param params: Si solo recibe un parametro, este debera de ser el elemento a eliminar
+        :param params: Si solo recibe un parametro, este debera de ser el elemento a eliminar.
+                        (en caso de estar repetido en la secuencia, este metodo eliminara el
+                        primero que se encuentre)
                        Si recibe dos parametros, estos seran el elemento a eliminar y el numero
                        de veces que se desea eliminar.
+                       (en caso de estar repetido en la secuencia, este metodo eliminara los
+                       primeros nrep que se encuentre)
         """
         if len(params) == 1:
             # Hay que asegurarnos que el arreglo no este vacio y el elemento exista
@@ -93,7 +97,7 @@ class Secuencia(Ic.Conjuntable):
                                 self.__datos[i] = self.__datos[self.__nd]
                             print(f"El elemento {params[0]} fue eliminado!\n")
                             encontro = True
-                            # break: en teoria en la secuencia si hay que seguir buscando
+                            break # elimino el primero que encuentro
                         i += 1
                 except StopIteration:
                     pass
@@ -103,12 +107,12 @@ class Secuencia(Ic.Conjuntable):
         elif len(params) == 2:
             # Hay que asegurarnos que el arreglo no este vacio y el elemento exista
             if not self.esta_vacia() and self.contiene(params[0]):
-                aux = 0
+                aux = 0 # me ayudara a contar cuantos llevo eliminados
                 encontro = False
                 it1 = iter(self)
                 i = 0
                 try:
-                    while True and aux <= params[1]:
+                    while True:
                         elem = next(it1)
                         if elem == params[0]:  # Lo encontro
                             if i == self.__nd - 1:  # El elemento esta al final
@@ -119,7 +123,9 @@ class Secuencia(Ic.Conjuntable):
                             print(f"El elemento {params[0]} fue eliminado!\n")
                             encontro = True
                             aux += 1
-                            # break: en teoria en la secuencia si hay que seguir buscando
+                            if aux == params[1]:
+                                break
+                            else:# en teoria en la secuencia si hay que seguir buscando
                         i += 1
                 except StopIteration:
                     pass
