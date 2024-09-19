@@ -1,6 +1,6 @@
 # Programa: ClassSecuencia.py
-# Objetivo: Mostrar la implementación de la "interfaz" Conjuntable, para
-#           ilustrar la creación de un TAD de objetos.
+# Objetivo: Mostrar la implementacion de la "interfaz" Conjuntable, para
+#           ilustrar la creacion de un TAD de objetos.
 # Autores: Milena Rivera, Carlos Barrera, Isaac Garrido, Mayela Rosas
 # Version: 18-09-2024
 
@@ -26,7 +26,7 @@ class Secuencia(Ic.Conjuntable):
                 self.__nd = 0
                 print(f"Se creo una Secuencia para {params[0]} elementos!\n")
             except ValueError:
-                print("El tamaño del arreglo debe ser positivo!\n")
+                print("El tamanio del arreglo debe ser positivo!\n")
 
     @property
     def datos(self):
@@ -211,7 +211,7 @@ class Secuencia(Ic.Conjuntable):
         except StopIteration:
             return copia
 
-    def ordenar(self):
+    def ordenar(self, comparador):
         """
         Metodo que permite devuelve la Secuencia de elementos ordenada.
         Utiliza Quick Sort o Merge Sort y habilita la existencia de dos comparadores
@@ -219,7 +219,8 @@ class Secuencia(Ic.Conjuntable):
         salario, por edad y nombre, salario y nombre, etc.
         :return: La Secuencia ordenada
         """
-        pass
+        self.ordenar_recursivo(0, self.__nd, comparador)
+        return self
 
 # Metodos extra
 
@@ -282,3 +283,80 @@ class Secuencia(Ic.Conjuntable):
             return a
         else:
             raise StopIteration
+
+    def __particion(self, inicio, fin, comparador):
+        """
+        Esta funcion organiza los elementos del directorio de manera que todos los elementos
+        menores o iguales al pivote estan a la izquierda y todos los elementos mayores estan
+        a la derecha. El pivote se coloca en su posicion correcta.
+        :param inicio: La posici�n inicial
+        :param fin: La posicion final
+        :param comparador: El comparador con el que se desea hacer el ordenamiento
+        :return: La posicion correcta del pivote
+        :rtype: int
+        """
+        pivote = self.__datos[inicio]
+        left = inicio + 1
+        right = fin
+        while True:
+            while left <= right and comparador(self.__datos[left], pivote) <= 0:
+                left += 1
+            while comparador(self.__datos[right], pivote) > 0 and right >= left:
+                right -= 1
+            if right < left:
+                break
+            else:  # Intercambiamos los datos que no cumplieron las condiciones
+                self.__datos[left], self.__datos[right] = self.__datos[right], self.__datos[left]
+                # Movemos el pivote a la posici�n correcta
+        self.__datos[inicio], self.__datos[right] = self.__datos[right], self.__datos[inicio]
+        return right  # Devolvemos la posicion correcta del pivote
+
+    def ordenar_recursivo(self, inicio, fin, comparador):
+        """
+        Esta funcion aplica recursivamente el algoritmo Quick Sort a los subarreglos definidos por el pivote.
+        :param inicio: La posicion inicial
+        :param fin: La posicion final
+        :param comparador: El comparador con el que se desea hacer el ordenamiento
+        :return: Arreglo de contactos ordenado
+        """
+        if inicio < fin:
+            posicion_part = self.__particion(inicio, fin, comparador)
+            self.ordenar_recursivo(inicio, posicion_part - 1, comparador)
+            self.ordenar_recursivo(posicion_part + 1, fin, comparador)
+        return self.__datos
+
+# Metodos comparadores entre empleados.
+
+
+def apellido_nombre(a: Em.Empleado, b: Em.Empleado) -> int:
+    nombre_1 = a.apellidos + ' ' + a.nombre
+    nombre_2 = b.apellidos + ' ' + b.nombre
+    if nombre_1 < nombre_2:
+        return -1
+    elif nombre_1 > nombre_2:
+        return 1
+    else:
+        return 0
+
+
+def edad(a: Em.Empleado, b: Em.Empleado) -> int:
+    if a > b:
+        return -1
+    else:
+        return 1
+
+
+def salario_nombre_edad(a: Em.Empleado, b: Em.Empleado) -> float:
+    dif_salario = a.salario - b.salario
+    # Si son iguales bajo el parametro salario
+    if dif_salario == 0:
+        dif_nombre = apellido_nombre(a, b)
+        if dif_nombre == 0:
+            dif_edad = edad(a, b)
+            return dif_edad
+        return dif_nombre
+    return dif_salario
+
+
+def numero_empleado(a: Em.Empleado, b: Em.Empleado) -> int:
+    return a.num_emp - b.num_emp
